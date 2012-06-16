@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="562" systemVersion="11C74" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Address" representedClassName="Address">
+        <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="postCode" optional="YES" attributeType="String"/>
+        <attribute name="street" optional="YES" attributeType="String"/>
+        <relationship name="hasEntity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Entity" inverseName="address" inverseEntity="Entity"/>
+    </entity>
+    <entity name="Entity" representedClassName="Entity">
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="fax" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String" indexed="YES"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="site" optional="YES" attributeType="String"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Transformable" valueTransformerName="ImageToDataTransformer"/>
+        <attribute name="upperCaseFirstLetterOfName" optional="YES" transient="YES" attributeType="String"/>
+        <relationship name="address" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Address" inverseName="hasEntity" inverseEntity="Address"/>
+        <relationship name="schedule" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Schedule" inverseName="hasEntity" inverseEntity="Schedule"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="name"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="Schedule" representedClassName="Schedule">
+        <attribute name="active" optional="YES" attributeType="Boolean"/>
+        <attribute name="date" optional="YES" attributeType="Date"/>
+        <attribute name="end" optional="YES" attributeType="Date"/>
+        <attribute name="fri" optional="YES" attributeType="Boolean"/>
+        <attribute name="mon" optional="YES" attributeType="Boolean"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0"/>
+        <attribute name="sat" optional="YES" attributeType="Boolean"/>
+        <attribute name="start" optional="YES" attributeType="Date"/>
+        <attribute name="sun" optional="YES" attributeType="Boolean"/>
+        <attribute name="thu" optional="YES" attributeType="Boolean"/>
+        <attribute name="tue" optional="YES" attributeType="Boolean"/>
+        <attribute name="wed" optional="YES" attributeType="Boolean"/>
+        <relationship name="hasEntity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Entity" inverseName="schedule" inverseEntity="Entity"/>
+    </entity>
+    <elements>
+        <element name="Address" positionX="-54" positionY="18" width="128" height="120"/>
+        <element name="Entity" positionX="-380" positionY="-336" width="128" height="210"/>
+        <element name="Schedule" positionX="-209" positionY="-81" width="128" height="255"/>
+    </elements>
+</model>
