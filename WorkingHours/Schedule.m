@@ -35,7 +35,7 @@
     }
     if (self.tue.boolValue)
     {
-        [result appendString:@"Thu "];
+        [result appendString:@"Tue "];
     }
     if (self.wed.boolValue)
     {

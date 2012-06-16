@@ -98,7 +98,7 @@
         case 2:
             return [mon boolValue];
         case 3:
-            return [thu boolValue];
+            return [tue boolValue];
         case 4:
             return [wed boolValue];
         case 5:
