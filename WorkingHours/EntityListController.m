@@ -199,6 +199,7 @@
     Entity *entity = (Entity *)[_fetchedResultsController objectAtIndexPath:indexPath];
     cell.nameLabel.text = entity.name;
     cell.descriptionLabel.text = ENTITY_DESCRIPTION_LABEL;
+    cell.availableLabel.image = [UIImage imageNamed:NOT_AVAILABLE_IMAGE];
     cell.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
     if (entity.thumbnail)
     {
@@ -221,6 +222,7 @@
                 if ([DateUtils currentTimeAfter:schedule.start andBefore:schedule.end])
                 {
                     cell.descriptionLabel.text = [DateUtils periodAsString:schedule.start :schedule.end];
+                    cell.availableLabel.image = [UIImage imageNamed:AVAILABLE_IMAGE];
                     break;
                 } 
             }    

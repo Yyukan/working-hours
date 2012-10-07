@@ -199,6 +199,7 @@
         Entity *entity = (Entity *)[_fetchedResultsController objectAtIndexPath:indexPath];
         cell.nameLabel.text = entity.name;
         cell.descriptionLabel.text = ENTITY_DESCRIPTION_LABEL;
+        cell.availableLabel.image = [UIImage imageNamed:NOT_AVAILABLE_IMAGE];
         if (entity.thumbnail)
         {
             cell.imageLabel.image = entity.thumbnail;
@@ -222,6 +223,7 @@
                         NSString *start = [DateUtils formatTimeTo24Hours:schedule.start];
                         NSString *end = [DateUtils formatTimeTo24Hours:schedule.end];
                         cell.descriptionLabel.text = [NSString stringWithFormat:@"%@-%@", start, end];
+                        cell.availableLabel.image = [UIImage imageNamed:AVAILABLE_IMAGE];
                         break;
                     } 
                 }    

@@ -10,6 +10,8 @@
 #import <CoreData/CoreData.h>
 
 #define DEFAULT_IMAGE @"empty.png"
+#define AVAILABLE_IMAGE @"green"
+#define NOT_AVAILABLE_IMAGE @"red"
 
 @class Schedule;
 

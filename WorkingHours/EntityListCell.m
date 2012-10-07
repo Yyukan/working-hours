@@ -13,8 +13,10 @@
 @synthesize nameLabel = _nameLabel;
 @synthesize descriptionLabel =  _descriptionLabel;
 @synthesize imageLabel = _imageLabel;
+@synthesize availableLabel = _availableLabel;
 
 - (void)dealloc {
+    [_availableLabel release];
     [_nameLabel release];
     [_descriptionLabel release];
     [_imageLabel release];
