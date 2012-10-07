@@ -30,7 +30,7 @@
 	// inject managed object context to navigation root view controller
     entityListController.managedObjectContext = self.managedObjectContext;
 
-    [self.window addSubview:[self.navigationController view]]; 
+    [self.window setRootViewController:self.navigationController];
     [self.window makeKeyAndVisible];
     
     [self.navigationController.navigationBar setTintColor:[ImageUtils tintColor]];
