@@ -267,6 +267,11 @@ static inline CGSize swapWidthAndHeight(CGSize size)
 {
 	UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     view.backgroundColor = background;
+    if ([view isKindOfClass:[UITableView class]])
+    {
+        UITableView *tableView = (UITableView *)view;
+        tableView.backgroundView = nil;
+    }
     [background release];
 }
 

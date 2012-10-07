@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F405E7AE1400EE1D00E7AFC2 /* Date.m in Sources */ = {isa = PBXBuildFile; fileRef = F405E7AD1400EE1D00E7AFC2 /* Date.m */; };
 		F407E5CF13EBE10800E0D20C /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = F407E5CE13EBE10800E0D20C /* empty.png */; };
+		F408A7661621E24100952BF2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F408A7651621E24100952BF2 /* Default-568h@2x.png */; };
 		F414DD9F144AD9A30033E7E8 /* button_red.png in Resources */ = {isa = PBXBuildFile; fileRef = F414DD9E144AD9A30033E7E8 /* button_red.png */; };
 		F415158813FAF4E800C24780 /* DateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F415158713FAF4E800C24780 /* DateUtils.m */; };
 		F418CF2B144B36CE00D64B58 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F418CF29144B36CE00D64B58 /* Icon.png */; };
@@ -78,6 +79,7 @@
 		F405E7AC1400EE1D00E7AFC2 /* Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Date.h; sourceTree = "<group>"; };
 		F405E7AD1400EE1D00E7AFC2 /* Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Date.m; sourceTree = "<group>"; };
 		F407E5CE13EBE10800E0D20C /* empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty.png; sourceTree = "<group>"; };
+		F408A7651621E24100952BF2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F414DD9E144AD9A30033E7E8 /* button_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_red.png; sourceTree = "<group>"; };
 		F415158613FAF4E800C24780 /* DateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtils.h; sourceTree = "<group>"; };
 		F415158713FAF4E800C24780 /* DateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtils.m; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 		F4BF5BB713E74699009BA5E7 = {
 			isa = PBXGroup;
 			children = (
+				F408A7651621E24100952BF2 /* Default-568h@2x.png */,
 				F4759A2414508C9100F9B5F7 /* Icon512.png */,
 				F418CF38144B40EB00D64B58 /* Default@2x.png */,
 				F418CF36144B40D700D64B58 /* Default.png */,
@@ -445,6 +448,7 @@
 		F4BF5BB913E74699009BA5E7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = shtykhno.net;
 			};
 			buildConfigurationList = F4BF5BBC13E74699009BA5E7 /* Build configuration list for PBXProject "WorkingHours" */;
@@ -490,6 +494,7 @@
 				F418CF37144B40D700D64B58 /* Default.png in Resources */,
 				F418CF39144B40EB00D64B58 /* Default@2x.png in Resources */,
 				F4759A2514508C9100F9B5F7 /* Icon512.png in Resources */,
+				F408A7661621E24100952BF2 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,6 +621,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -637,6 +643,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oleksandr Shtykhno";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -659,8 +666,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WorkingHours/WorkingHours-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "WorkingHours/WorkingHours-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = WorkHours;
 				WRAPPER_EXTENSION = app;
 			};
@@ -677,8 +686,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WorkingHours/WorkingHours-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "WorkingHours/WorkingHours-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = WorkHours;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EF60F819-659D-414E-BD62-CE706B1416DF";
@@ -695,6 +706,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -710,6 +723,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;

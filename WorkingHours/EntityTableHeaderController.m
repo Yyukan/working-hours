@@ -82,6 +82,7 @@
     }
 
     self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundView = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
