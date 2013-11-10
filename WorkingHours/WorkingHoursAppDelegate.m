@@ -5,6 +5,7 @@
 //  Created by Oleksandr Shtykhno on 01/08/2011.
 //  Copyright 2011 shtykhno.net. All rights reserved.
 //
+#import "Common.h"
 #import "ImageUtils.h"
 #import "WorkingHoursAppDelegate.h"
 #import "EntityListController.h"
@@ -30,11 +31,15 @@
 	// inject managed object context to navigation root view controller
     entityListController.managedObjectContext = self.managedObjectContext;
 
+    // navigation bar customization
+    NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
+    [titleBarAttributes setValue:[UIFont fontWithName:@"HelveticaNeue-Light" size:21] forKey:NSFontAttributeName];
+    [titleBarAttributes setValue:GREEN_COLOR forKey:NSForegroundColorAttributeName];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:titleBarAttributes];
+    
     [self.window setRootViewController:self.navigationController];
     [self.window makeKeyAndVisible];
-    
-    [self.navigationController.navigationBar setTintColor:[ImageUtils tintColor]];
-    [ImageUtils setBackgroundImage:self.window];
     
     return YES;
 }

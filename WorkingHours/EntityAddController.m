@@ -121,27 +121,19 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
 {
     [super viewDidLoad];
     TRC_ENTRY
+    self.title = @"Add";
+    self.view.backgroundColor = BACKGROUND_COLOR;
     
-    self.title = TITLE_NAVIGATION_BAR;
-    // add cancel button 
-    self.navigationItem.leftBarButtonItem = 
-    [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-                            target:self action:@selector(cancel:)] autorelease];
-    // add save button     
-    self.navigationItem.rightBarButtonItem = 
-    [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
-                              target:self action:@selector(save:)] autorelease];
-	
+    // navigation bar initialization
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cross"] style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"done"] style:UIBarButtonItemStylePlain target:self action:@selector(save:)] autorelease];
+    self.navigationController.navigationBar.tintColor = GREEN_COLOR;
+
     self.editing = YES;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.allowsSelectionDuringEditing = YES;
 
     self.tableView.tableHeaderView = _tableHeaderController.view;
-    
-    // set color of the navegation bar 
-    [self.navigationController.navigationBar setTintColor:[ImageUtils tintColor]];
-
-    // set background color for table 
-    [ImageUtils setBackgroundImage:self.tableView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -272,11 +264,15 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
     self.entityEditableCell = nil;
     
     [cell.textField setDelegate:self];
-    [cell.textField setPlaceholder:placeholder];
     [cell.textField setText:text];
+    [cell.textField setTextColor:BACKGROUND_COLOR];
+    [cell.textField setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
     
-    [cell setBackgroundColor:[ImageUtils cellBackGround]];
+    cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName: BACKGROUND_COLOR}];
+
+    [cell setBackgroundColor:BLACK_COLOR];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    [Utils adjustHeadTail:cell];
     return cell;
 }
 
@@ -291,52 +287,60 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier] autorelease];
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier] autorelease];
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
             cell.showsReorderControl = YES;
+            cell.textLabel.textColor = GREEN_COLOR;
+            cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:10];
+            cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11];
+            cell.detailTextLabel.textColor = BACKGROUND_COLOR;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = BLACK_COLOR;
         }
         
         Schedule *schedule = [self.periods objectAtIndex:row];
-        cell.detailTextLabel.text = [schedule scheduleToString]; 
-        cell.textLabel.text = [DateUtils periodAsString:schedule.start :schedule.end];
-        cell.backgroundColor = [ImageUtils cellBackGround];
 
+        cell.textLabel.text = [DateUtils periodAsString:schedule.start :schedule.end];
+        cell.detailTextLabel.text = [schedule scheduleToString];
+        
+        [Utils adjustHeadTail:cell];
+        
         return cell;
     } 
-    return [Utils tableView:tableView cellInsert:indexPath identifier:ADD_SCHEDULE_CELL_IDENTIFIER text:@"add schedule"];
+    return [Utils tableView:tableView cellInsert:indexPath identifier:ADD_SCHEDULE_CELL_IDENTIFIER text:@"Add schedule"];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForAddress:(NSIndexPath *)indexPath 
 {
     if (!insertAddress)
     {
-        return [Utils tableView:tableView cellInsert:indexPath identifier:ADD_ADDRESS_CELL_IDENTIFIER text:@"add address"];
+        return [Utils tableView:tableView cellInsert:indexPath identifier:ADD_ADDRESS_CELL_IDENTIFIER text:@"Add address"];
     }
 
     switch (indexPath.row) {
         case ROW_STREET:
             if (!_streetCell)
             {
-                self.streetCell = [self loadCellWithPlaceHolder:@"street" andText:self.street];
+                self.streetCell = [self loadCellWithPlaceHolder:@"Street" andText:self.street];
             }
             return self.streetCell;
         case ROW_CITY:
             if (!_cityCell)
             {
-                self.cityCell = [self loadCellWithPlaceHolder:@"city" andText:self.city];
+                self.cityCell = [self loadCellWithPlaceHolder:@"City" andText:self.city];
             }
             return self.cityCell;
         case ROW_POSTCODE:
             if (!_postCodeCell)
             {
-                self.postCodeCell = [self loadCellWithPlaceHolder:@"postcode" andText:self.postcode];
+                self.postCodeCell = [self loadCellWithPlaceHolder:@"Postcode" andText:self.postcode];
             }
             return self.postCodeCell;
         case ROW_COUNTRY:
             if (!_countryCell)
             {
-                self.countryCell = [self loadCellWithPlaceHolder:@"country" andText:self.country];
+                self.countryCell = [self loadCellWithPlaceHolder:@"Country" andText:self.country];
                 self.countryCell.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
                 self.countryCell.textField.enabled = NO;
             }
@@ -350,32 +354,32 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
 {
     if (!insertDetails)
     {
-        return [Utils tableView:tableView cellInsert:indexPath identifier:ADD_DETAIL_CELL_IDENTIFIER text:@"add details"];
+        return [Utils tableView:tableView cellInsert:indexPath identifier:ADD_DETAIL_CELL_IDENTIFIER text:@"Add details"];
     }    
 
     switch (indexPath.row) {
         case ROW_EMAIL:
             if (!_emailCell)
             {
-                self.emailCell = [self loadCellWithPlaceHolder:@"email" andText:self.email];
+                self.emailCell = [self loadCellWithPlaceHolder:@"Email" andText:self.email];
             }
             return self.emailCell;
         case ROW_PHONE:
             if (!_phoneCell)
             {
-                self.phoneCell = [self loadCellWithPlaceHolder:@"phone" andText:self.phone];
+                self.phoneCell = [self loadCellWithPlaceHolder:@"Phone" andText:self.phone];
             }
             return self.phoneCell;
         case ROW_FAX:
             if (!_faxCell)
             {
-                self.faxCell = [self loadCellWithPlaceHolder:@"fax" andText:self.fax];
+                self.faxCell = [self loadCellWithPlaceHolder:@"Fax" andText:self.fax];
             }
             return self.faxCell;
         case ROW_URL:
             if (!_siteCell)
             {
-                self.siteCell = [self loadCellWithPlaceHolder:@"url" andText:self.url];
+                self.siteCell = [self loadCellWithPlaceHolder:@"Url" andText:self.url];
             }
             return self.siteCell;
     }
@@ -418,6 +422,11 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
     
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 5.0;
+}
+
 - (UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCellEditingStyle style = UITableViewCellEditingStyleNone;
@@ -447,23 +456,29 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
 
 - (void)addSchedule
 {
-    EntityPeriodController *periodController = [[EntityPeriodController alloc] initWithStyle:UITableViewStyleGrouped];
+    EntityPeriodController *periodController = [[EntityPeriodController alloc] initWithNibName:@"EntitySchedule" bundle:nil];
     periodController.delegate = self;
     
-    [Utils tableViewController:self presentModal:periodController];
-
-    [periodController release];    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:periodController];
+    
+    [self presentViewController:navigationController animated:NO completion:nil];
+    
+    [navigationController release];
+    [periodController release];
 }
 
 - (void)editSchedule:(NSUInteger)row
 {
-    EntityPeriodController *periodController = [[EntityPeriodController alloc] initWithStyle:UITableViewStyleGrouped];
+    EntityPeriodController *periodController = [[EntityPeriodController alloc] initWithNibName:@"EntitySchedule" bundle:nil];
     periodController.schedule = [self.periods objectAtIndex:row];
     periodController.delegate = self;
+
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:periodController];
+
+    [self presentViewController:navigationController animated:NO completion:nil];
     
-    [Utils tableViewController:self presentModal:periodController];
-    
-    [periodController release];    
+    [navigationController release];
+    [periodController release];
 }
 
 - (void)addAddress:(NSIndexPath *)indexPath
@@ -639,7 +654,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
         schedule.sat = [NSNumber numberWithBool:[controller.week checkDay:SATURDAY]];
         schedule.sun = [NSNumber numberWithBool:[controller.week checkDay:SUNDAY]];
     }    
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark -
@@ -672,12 +687,12 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
         
         [_tableHeaderController setThumbnail:thumbnailImage withTitle:@"edit photo"]; 
     }
-    [picker dismissModalViewControllerAnimated:YES];
+    [picker dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker 
 {
-    [picker dismissModalViewControllerAnimated:YES];
+    [picker dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark - Country controller delegate
@@ -686,9 +701,8 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
 {
     self.countryCell.textField.text = country;    
     
-    [controller dismissModalViewControllerAnimated:YES];     
-
-}    
+    [controller dismissViewControllerAnimated:NO completion:nil];
+}
 
 #pragma mark -
 #pragma mark Action sheet delegate
@@ -713,7 +727,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
                     [picker setMediaTypes:[NSArray arrayWithObject:(NSString *)kUTTypeImage]];
                     
                     picker.delegate = self;
-                    [self presentModalViewController:picker animated:YES];
+                    [self presentViewController:picker animated:NO completion:nil];
                     [picker release];
                 }
             } 
@@ -723,7 +737,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
         {
             UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
             imagePicker.delegate = self;
-            [self presentModalViewController:imagePicker animated:YES];
+            [self presentViewController:imagePicker animated:NO completion:nil];
             [imagePicker release];
         }
         break;

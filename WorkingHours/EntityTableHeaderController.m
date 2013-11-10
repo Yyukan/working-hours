@@ -5,6 +5,7 @@
 //  Created by Oleksandr Shtykhno on 30/08/2011.
 //  Copyright 2011 shtykhno.net. All rights reserved.
 //
+#import "Common.h"
 #import "Logger.h"
 #import "Utils.h"
 #import "ImageUtils.h"
@@ -21,10 +22,6 @@
 @synthesize name;
 @synthesize note;
 @synthesize delegate;
-@synthesize nameCell = _nameCell;
-@synthesize noteCell = _noteCell;
-@synthesize tableView;
-@synthesize entityEditableCell;
 @synthesize photoButton;
 
 #pragma mark - Init dealloc
@@ -45,10 +42,7 @@
     [thumbnail release];
     [note release];
     [name release];
-    [_nameCell release];
-    [_noteCell release];
     [photoButton release];
-    [tableView release];
     [super dealloc];
 }
 
@@ -59,12 +53,6 @@
 }
 
 #pragma mark - View lifecycle
-
-- (void)loadView
-{
-    [super loadView];
-    TRC_ENTRY
-}
 
 - (void)viewDidLoad
 {
@@ -81,8 +69,13 @@
         [self.photoButton setTitle:thumbnailTitle forState:UIControlStateNormal];
     }
 
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.backgroundView = nil;
+    if (name) {
+        self.nameTextField.text = [NSString stringWithFormat:@" %@", name];
+    }
+    else {
+        self.nameTextField.text = @"";
+    }
+    self.view.backgroundColor = BACKGROUND_COLOR;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -108,80 +101,12 @@
     [super viewDidUnload];
     TRC_ENTRY
     
-    // save state
-    self.name = self.nameCell.textField.text;
-    self.note = self.noteCell.textField.text;
-    
-    self.nameCell = nil;
-    self.noteCell = nil;
     self.photoButton = nil;
-    self.tableView = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return YES;
-}
-
-#pragma mark - Datasource delegate
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 2;
-}
-
-- (void)loadCell:(EntityEditableCell **)cell
-{
-    [[NSBundle mainBundle] loadNibNamed:@"EntityEditableCell" owner:self options:nil];
-    *cell = [entityEditableCell retain];
-    self.entityEditableCell = nil;
-}
-
-- (EntityEditableCell *)nameCell
-{
-    if (_nameCell == nil)
-    {
-        [self loadCell:&_nameCell];
-        [_nameCell.textField setDelegate:self];
-        [_nameCell.textField setPlaceholder:@"name"]; 
-        [_nameCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        TRC_DBG(@"Name cell created");
-    }
-    return _nameCell;
-}
-
-- (EntityEditableCell *)noteCell
-{
-    if (_noteCell == nil)
-    {
-        [self loadCell:&_noteCell];
-        [_noteCell.textField setDelegate:self];
-        [_noteCell.textField setPlaceholder:@"note"];
-        [_noteCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        TRC_DBG(@"Note cell created");
-    }
-    return _noteCell;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    switch (indexPath.row) 
-    {
-        case ROW_NAME:
-            [self.nameCell.textField setText:name];
-            [self.nameCell setBackgroundColor:[ImageUtils cellBackGround]];
-            return self.nameCell;
-        case ROW_NOTE: 
-            [self.noteCell.textField setText:note];
-            [self.noteCell setBackgroundColor:[ImageUtils cellBackGround]];
-            return self.noteCell;
-    }
-    return nil;
+    return NO;
 }
 
 #pragma mark - Text field delegate
@@ -235,19 +160,16 @@
 
 - (NSString *)nameFromTextField
 {
-    return self.nameCell.textField.text;
+    return self.nameTextField.text;
 }
 
 - (NSString *)noteFromTextField
 {
-    return self.noteCell.textField.text;
+    return @"note???";
 }
 
 - (void)editing:(BOOL)editing
 {
-    [self.nameCell.textField setEnabled:editing];
-    [self.noteCell.textField setEnabled:editing];
-    
     [self.photoButton setSelected:editing];
     [self.photoButton setAdjustsImageWhenHighlighted:editing];
     if (editing)

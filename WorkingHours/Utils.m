@@ -12,12 +12,11 @@
 
 @implementation Utils
 
-+ (void)tableViewController:(UITableViewController*) controller presentModal:(UITableViewController *)modal;
++ (void)tableViewController:(UITableViewController*) controller presentModal:(UIViewController *)modal;
 {
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:modal];
-	navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-    
-    [controller.navigationController presentModalViewController:navigationController animated:YES];
+
+    [controller presentViewController:navigationController animated:NO completion:nil];
 	
     [navigationController release];
 }
@@ -89,10 +88,26 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
         cell.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
     }
-    [cell.textLabel setText:text];
-    [cell setBackgroundColor:[ImageUtils cellBackGround]];
+    cell.textLabel.text = text;
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+    cell.textLabel.textColor = BACKGROUND_COLOR;
+
+    [cell setBackgroundColor:BLACK_COLOR];
+    [Utils adjustHeadTail:cell];
 
     return cell;
+}
+
++ (void)adjustHeadTail:(UITableViewCell *)cell
+{
+    UIView *headView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, cell.frame.size.height)] autorelease];
+    headView.backgroundColor = BACKGROUND_COLOR;
+    
+    UIView *tailView = [[[UIView alloc] initWithFrame:CGRectMake(cell.frame.size.width-5, 0, 10, cell.frame.size.height)] autorelease];
+    tailView.backgroundColor = BACKGROUND_COLOR;
+    
+    [cell addSubview:headView];
+    [cell addSubview:tailView];
 }
 
 + (UIView *)emptyView

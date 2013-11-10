@@ -48,12 +48,12 @@
 {
     [super viewDidLoad];
 
-    self.title = @"";
-    self.navigationController.navigationBar.tintColor = [ImageUtils tintColor];
-    self.tableView.backgroundColor = [UIColor clearColor];
-
-    [ImageUtils setBackgroundImage:self.view];
-    [ImageUtils setSeparatorColor:self.tableView];
+    self.title = @"Select Country";
+    self.navigationController.navigationBar.tintColor = GREEN_COLOR;
+    self.tableView.backgroundColor = BACKGROUND_COLOR;
+    self.tableView.backgroundView.backgroundColor = BACKGROUND_COLOR;
+    self.tableView.sectionIndexBackgroundColor = BACKGROUND_COLOR;
+    self.tableView.sectionIndexColor = GREEN_COLOR;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -109,7 +109,7 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         cell.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
-        cell.backgroundColor = [UIColor clearColor];
+        cell.backgroundColor = BACKGROUND_COLOR;
     }
     
     NSDictionary *country = [self countryAtIndexPath:indexPath];

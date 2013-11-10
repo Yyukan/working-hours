@@ -11,23 +11,17 @@
 
 @protocol EntityTableHeaderControllerDelegate;
 
-@interface EntityTableHeaderController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface EntityTableHeaderController : UIViewController <UITextFieldDelegate>
 
 @property (nonatomic, retain) UIImage *thumbnail;
 @property (nonatomic, retain) NSString *thumbnailTitle;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *note;
 
-@property (nonatomic, assign) EntityEditableCell *nameCell;
-@property (nonatomic, assign) EntityEditableCell *noteCell;
-
 @property (nonatomic, retain) IBOutlet UIButton *photoButton;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (nonatomic, retain) IBOutlet UITextField *nameTextField;
 
 @property (nonatomic, assign) id <EntityTableHeaderControllerDelegate> delegate;
-
-// special outlet to load cell from xib file
-@property (nonatomic, assign) IBOutlet EntityEditableCell *entityEditableCell;
 
 - (NSString *)nameFromTextField;
 - (NSString *)noteFromTextField;

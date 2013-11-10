@@ -168,24 +168,27 @@
     [super viewDidLoad];
     TRC_ENTRY
 
-    self.navigationController.navigationBar.tintColor = [ImageUtils tintColor];
     
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.editButtonItem.action = @selector(editButtonAction:);
+    // navigation bar initialization
+    //self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStylePlain target:self action:@selector(editButtonAction:)] autorelease];
+    self.navigationItem.rightBarButtonItem.tag = EDIT_BUTTON_TAG;
+    self.navigationController.navigationBar.tintColor = GREEN_COLOR;
     
     if (_edit)
     {
         self.editing = YES;
     }
     
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.allowsSelectionDuringEditing = YES;
 
     self.tableView.tableHeaderView = _tableHeaderController.view;
     
     self.tableView.sectionHeaderHeight = 0;
-    self.tableView.sectionFooterHeight = 0; 
-
-    [ImageUtils setBackgroundImage:self.tableView];
+    self.tableView.sectionFooterHeight = 0;
+    self.tableView.backgroundColor = BACKGROUND_COLOR;
+    self.tableView.backgroundView.backgroundColor = BACKGROUND_COLOR;
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -354,16 +357,21 @@
     EntityEditableCell *cell = _entityEditableCell;
     self.entityEditableCell = nil;
     
-    [cell.textField setDelegate:self];
-    [cell.textField setPlaceholder:placeholder];
-    [cell.textField setText:text];
     
-    [cell setBackgroundColor:[ImageUtils cellBackGround]];
+    [cell.textField setDelegate:self];
+    [cell.textField setText:text];
+    [cell.textField setTextColor:BACKGROUND_COLOR];
+    [cell.textField setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
+    [cell setBackgroundColor:BLACK_COLOR];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+    cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName: BACKGROUND_COLOR}];
+    [Utils adjustHeadTail:cell];
+
     return cell;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForSchedule:(NSIndexPath *)indexPath 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForSchedule:(NSIndexPath *)indexPath
 {
     NSUInteger scheduleCount = [_entity.schedule count];
     NSInteger row = indexPath.row;
@@ -376,17 +384,25 @@
         cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier] autorelease];
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier] autorelease];
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
         
         Schedule *schedule = [self.schedules objectAtIndex:row];
         
         cell.textLabel.text = [DateUtils periodAsString:schedule.start :schedule.end];
-        cell.detailTextLabel.text = [schedule scheduleToString]; 
+        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
+        cell.textLabel.textColor = GREEN_COLOR;
+        
+        cell.detailTextLabel.text = [schedule scheduleToString];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+        cell.detailTextLabel.textColor = BACKGROUND_COLOR;
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [ImageUtils cellBackGround];
-
+        cell.backgroundColor = BLACK_COLOR;
+        
+        [Utils adjustHeadTail:cell];
+        
         if (self.editing)
         {
             cell.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
@@ -395,7 +411,7 @@
         return cell;
     } 
     
-    return [Utils tableView:tableView cellInsert:indexPath identifier:@"AddScheduleCell" text:@"add schedule"];
+    return [Utils tableView:tableView cellInsert:indexPath identifier:@"AddScheduleCell" text:@"Add schedule"];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForDelete:(NSIndexPath *)indexPath
@@ -414,8 +430,8 @@
         // draw delete button
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setFrame:[cell.contentView frame]];
-        [button setBackgroundImage:[UIImage imageNamed:@"button_red.png"] forState:UIControlStateNormal];
         [button setTitle:@"Delete" forState:UIControlStateNormal];
+        [button setTitleColor:RED_COLOR forState:UIControlStateNormal];
         [button addTarget:self action:@selector(deleteEntity:) forControlEvents:UIControlEventTouchUpInside];
         [button setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight]; 
         
@@ -435,7 +451,6 @@
         [[NSBundle mainBundle] loadNibNamed:@"EntityViewableCell" owner:self options:nil];
         self.address = _entityViewableCell;
         self.entityViewableCell = nil;
-        self.address.backgroundColor = [ImageUtils cellBackGround];
         self.address.textView.scrollEnabled = NO;
         self.address.selected = YES;
         self.address.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
@@ -447,6 +462,7 @@
             
         self.address.textView.text = [address addressAsString];
     }
+    [Utils adjustHeadTail:self.address];
 
     return self.address;
 }
@@ -720,19 +736,19 @@
     self.phoneCell = nil;
     self.faxCell = nil;
     
-    [_tableHeaderController.tableView reloadData];
     [self.tableView reloadData];
 }
 
 
 -(IBAction)editButtonAction:(id)sender
 {
+    TRC_ENTRY
     UIBarButtonItem *button = (UIBarButtonItem *)sender;
-    if ([button.title isEqualToString:@"Edit"])
+    if (button.tag == EDIT_BUTTON_TAG)
     {
         [self setEditing:YES animated:YES];
     } 
-    else if ([button.title isEqualToString:@"Done"])
+    else if (button.tag == SAVE_BUTTON_TAG)
     {
         if ([self save])
         {
@@ -778,7 +794,7 @@
 {
     if ([self save])
     {
-        EntityPeriodController *periodController = [[EntityPeriodController alloc] initWithStyle:UITableViewStyleGrouped];
+        EntityPeriodController *periodController = [[EntityPeriodController alloc] initWithNibName:@"EntitySchedule" bundle:nil];
         periodController.delegate = self;
         
         [Utils tableViewController:self presentModal:periodController];
@@ -791,7 +807,7 @@
 {
     if ([self save])
     {    
-        EntityPeriodController *periodController = [[EntityPeriodController alloc] initWithStyle:UITableViewStyleGrouped];
+        EntityPeriodController *periodController = [[EntityPeriodController alloc] initWithNibName:@"EntitySchedule" bundle:nil];
         periodController.schedule = [_schedules objectAtIndex:row];
         periodController.delegate = self;
         
@@ -1040,7 +1056,7 @@
         schedule.sun = [NSNumber numberWithBool:[controller.week checkDay:SUNDAY]];
     }    
     
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark -
@@ -1066,7 +1082,7 @@
                     [picker setMediaTypes:[NSArray arrayWithObject:(NSString *)kUTTypeImage]];
                     
                     picker.delegate = self;
-                    [self presentModalViewController:picker animated:YES];
+                    [self presentViewController:picker animated:NO completion:nil];
                     [picker release];
                 }
             } 
@@ -1076,7 +1092,7 @@
         {
             UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
             imagePicker.delegate = self;
-            [self presentModalViewController:imagePicker animated:YES];
+            [self presentViewController:imagePicker animated:NO completion:nil];
             [imagePicker release];
         }
             break;
@@ -1150,12 +1166,12 @@
 
     [_tableHeaderController setThumbnail:thumbnailImage withTitle:@"edit photo"]; 
 
-    [picker dismissModalViewControllerAnimated:YES];
+    [picker dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker 
 {
-    [picker dismissModalViewControllerAnimated:YES];
+    [picker dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark - Country controller delegate

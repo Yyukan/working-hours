@@ -13,5 +13,7 @@
 @interface EntityEditableCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UITextField *textField;
+@property (nonatomic, retain) IBOutlet UIImageView *imageBackView;
+@property (nonatomic, retain) IBOutlet UIImageView *iconView;
 
 @end

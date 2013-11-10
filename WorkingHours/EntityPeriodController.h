@@ -7,17 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EntityWeekDayController.h"
 #import "Schedule.h"
 #import "Week.h"
 
-#define START_CELL_ROW 0
-#define END_CELL_ROW 1
-#define DAY_CELL_ROW 2
+#define START_TIME_TAG 1
+#define STOP_TIME_TAG 2
 
 @protocol EntityPeriodControllerDelegate;
 
-@interface EntityPeriodController : UITableViewController <UIPickerViewDelegate, EntityWeekDayControllerDelegate>
+@interface EntityPeriodController : UIViewController <UIPickerViewDelegate>
 {
     @private
     Schedule *_schedule;
@@ -34,7 +32,17 @@
 @property (nonatomic, copy) NSDate *end;
 @property (nonatomic, retain) Schedule *schedule;
 @property (nonatomic, retain) Week *week;
-@property (nonatomic, retain) UIDatePicker *datePicker;
+@property (nonatomic, retain) IBOutlet UIDatePicker *datePicker;
+@property (nonatomic, retain) IBOutlet UIButton *mondayButton;
+@property (nonatomic, retain) IBOutlet UIButton *tuesdayButton;
+@property (nonatomic, retain) IBOutlet UIButton *wednesdayButton;
+@property (nonatomic, retain) IBOutlet UIButton *thursdayButton;
+@property (nonatomic, retain) IBOutlet UIButton *fridayButton;
+@property (nonatomic, retain) IBOutlet UIButton *saturdayButton;
+@property (nonatomic, retain) IBOutlet UIButton *sundayButton;
+
+@property (nonatomic, retain) IBOutlet UIButton *startTime;
+@property (nonatomic, retain) IBOutlet UIButton *stopTime;
 
 @property (nonatomic, assign) id<EntityPeriodControllerDelegate> delegate;
 @end

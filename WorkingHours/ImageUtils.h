@@ -26,5 +26,6 @@
 + (UIColor *)tintColor;
 
 + (void)setSeparatorColor:(UITableView *)tableView;
++ (UIImage *)imageWithColor:(UIColor *)color;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EntityWelcomeTableView.h"
 #import "EntityAddController.h"
 #import "EntityListCell.h"
 #import "Entity.h"

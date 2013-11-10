@@ -11,6 +11,9 @@
 #import "EntityTableHeaderController.h"
 #import "CountryController.h"
 
+#define EDIT_BUTTON_TAG 1
+#define SAVE_BUTTON_TAG 2
+
 @class Entity;
 @class EntityEditableCell;
 @class EntityViewableCell;

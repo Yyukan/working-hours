@@ -10,11 +10,11 @@
 
 @implementation EntityEditableCell
 
-@synthesize textField = _textField;
-
 - (void)dealloc
 {
     [_textField release];
+    [_imageBackView release];
+    [_iconView release];
     [super dealloc];
 }
 

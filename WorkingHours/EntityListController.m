@@ -75,13 +75,24 @@
         TRC_DBG(@"Fetched [%i] entities", _fetchedResultsController.fetchedObjects.count);
     }
     
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = BACKGROUND_COLOR;
+
+    // navigation bar initialization
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewEntity:)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search"] style:UIBarButtonItemStylePlain target:self action:@selector(searchEnity:)] autorelease];
+    
+    self.navigationController.navigationBar.tintColor = GREEN_COLOR;
+    
     [ImageUtils setSeparatorColor:self.tableView];
 
     [self updateDateInTitleAndReloadData];
         
     // create scheduled timer to update date in the title
     self.titleTimer = [NSTimer scheduledTimerWithTimeInterval:TITLE_UPDATE_INTERVAL_SECONDS target:self selector:@selector(updateDateInTitleAndReloadData) userInfo:nil repeats:YES];
+    
+    self.tableView.backgroundColor = BACKGROUND_COLOR;
+    self.tableView.sectionIndexBackgroundColor = BACKGROUND_COLOR;
+    self.tableView.sectionIndexColor = GREEN_COLOR;
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -122,7 +133,7 @@
  */ 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return YES;
+    return NO;
 }
 
 #pragma mark - Table view data source
@@ -197,10 +208,11 @@
     
     // Configure the cell
     Entity *entity = (Entity *)[_fetchedResultsController objectAtIndexPath:indexPath];
-    cell.nameLabel.text = entity.name;
+    cell.nameLabel.text = [NSString stringWithFormat:@" %@", entity.name];
     cell.descriptionLabel.text = ENTITY_DESCRIPTION_LABEL;
-    cell.availableLabel.image = [UIImage imageNamed:NOT_AVAILABLE_IMAGE];
     cell.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
+    cell.backgroundView.backgroundColor = BACKGROUND_COLOR;
+    cell.backgroundColor = BACKGROUND_COLOR;
     if (entity.thumbnail)
     {
         cell.imageLabel.image = entity.thumbnail;
@@ -222,7 +234,7 @@
                 if ([DateUtils currentTimeAfter:schedule.start andBefore:schedule.end])
                 {
                     cell.descriptionLabel.text = [DateUtils periodAsString:schedule.start :schedule.end];
-                    cell.availableLabel.image = [UIImage imageNamed:AVAILABLE_IMAGE];
+                    cell.descriptionLabel.textColor = GREEN_COLOR;
                     break;
                 } 
             }    
@@ -293,7 +305,7 @@
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:entitySearchController];
     
-    [self.navigationController presentModalViewController:navigationController animated:YES];
+    [self presentViewController:navigationController animated:NO completion:nil];
 	
     [entitySearchController release];    
     [navigationController release];
@@ -312,7 +324,7 @@
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:entityAddController];
     
-    [self.navigationController presentModalViewController:navigationController animated:YES];
+    [self presentViewController:navigationController animated:NO completion:nil];
 	
     [entityAddController release];    
     [navigationController release];
@@ -352,8 +364,8 @@
     }
     
     // Dismiss the modal view to return to the main list
-    [self dismissModalViewControllerAnimated:YES];
-}    
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
 
 /**
  * Delegate methods of NSFetchedResultsController to respond to additions, removals and so on.

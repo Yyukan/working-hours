@@ -14,7 +14,7 @@
 
 @interface Utils : NSObject
 
-+ (void)tableViewController:(UITableViewController*) controller presentModal:(UITableViewController *)modal;
++ (void)tableViewController:(UITableViewController*) controller presentModal:(UIViewController *)modal;
 + (void)showRequiredNameAlert;
 
 + (void)showOKCancelAction:(UIView*)view withOkTitle:(NSString *)titleOk delegate:(id<UIActionSheetDelegate>) delegate;
@@ -28,5 +28,6 @@
 // Functions to work with tables
 //
 + (UITableViewCell *)tableView:(UITableView *)tableView cellInsert:(NSIndexPath *)indexPath identifier:(NSString *)identifier text:(NSString *)text;
++ (void)adjustHeadTail:(UITableViewCell *)cell;
 
 @end
