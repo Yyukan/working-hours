@@ -13,7 +13,7 @@
 #if TARGET_IPHONE_SIMULATOR != 0
 #define TRC_LEVEL 0
 #else
-#define TRC_LEVEL 5
+#define TRC_LEVEL 0
 #endif
 #endif
 
@@ -55,6 +55,7 @@
 #define TRC_ERR(A, ...)
 #endif
 
+#define TRC_FRAME(frame) TRC_DBG(@"Frame %f %f %f %f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height)
 void ILog(id instance);
 void ICLog(id instance, Class classType);
 

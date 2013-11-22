@@ -251,9 +251,9 @@ static inline CGSize swapWidthAndHeight(CGSize size)
     return data.length;
 }
 
-+ (UIImage*)thumbnailWithImage:(UIImage *)image size:(float) size
++ (UIImage*)thumbnailWithImage:(UIImage *)image
 {
-    return [ImageUtils imageWithImage:image scaledToSizeWithSameAspectRatio:CGSizeMake(size, size)];
+    return [ImageUtils imageWithImage:image scaledToSizeWithSameAspectRatio:CGSizeMake(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT)];
 }
 
 + (UIImage*)imageThumbnailStub;

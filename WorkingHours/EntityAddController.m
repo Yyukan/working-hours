@@ -32,10 +32,11 @@
 #define ROW_POSTCODE 2
 #define ROW_COUNTRY 3
 
-#define ROW_URL 0
-#define ROW_EMAIL 1
-#define ROW_PHONE 2
-#define ROW_FAX 3
+#define ROW_NOTE 0
+#define ROW_URL 1
+#define ROW_EMAIL 2
+#define ROW_PHONE 3
+#define ROW_FAX 4
 
 static NSString *ADD_SCHEDULE_CELL_IDENTIFIER = @"ADD_SCHEDULE_CELL_IDENTIFIER";
 static NSString *ADD_ADDRESS_CELL_IDENTIFIER = @"ADD_ADDRESS_CELL_IDENTIFIER";
@@ -57,7 +58,9 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
             country = _country,
             city = _city,
             postcode = _postcode,
+            note = _note,
             street = _street;
+
 
 @synthesize streetCell = _streetCell, 
             cityCell = _cityCell, 
@@ -65,7 +68,8 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
             countryCell = _countryCell, 
             siteCell = _siteCell, 
             emailCell = _emailCell, 
-            phoneCell = _phoneCell, 
+            phoneCell = _phoneCell,
+            noteCell = _noteCell,
             faxCell = _faxCell;
 
 - (id) initWithStyle:(UITableViewStyle)style
@@ -93,6 +97,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
     [_city release];
     [_country release];
     [_street release];
+    [_note release];
     
     [_streetCell release];
     [_cityCell release];
@@ -102,6 +107,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
     [_emailCell release];
     [_phoneCell release];
     [_faxCell release];
+    [_noteCell release];
     
     [_tableHeaderController release];
     [_periods release];
@@ -186,6 +192,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
     self.email = self.emailCell.textField.text;
     self.phone = self.phoneCell.textField.text;
     self.fax = self.faxCell.textField.text;
+    self.note = self.noteCell.textField.text;
     
     self.streetCell = nil;
     self.cityCell = nil;
@@ -195,6 +202,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
     self.siteCell = nil;
     self.phoneCell = nil;
     self.faxCell = nil;
+    self.noteCell = nil;
 }
 
 #pragma mark - Screen orientation
@@ -240,7 +248,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
             }
             else 
             {
-                rows = 4;
+                rows = 5;
             }
             break;
         default:
@@ -358,6 +366,12 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
     }    
 
     switch (indexPath.row) {
+        case ROW_NOTE:
+            if (!_noteCell)
+            {
+                self.noteCell = [self loadCellWithPlaceHolder:@"Note" andText:self.email];
+            }
+            return self.noteCell;
         case ROW_EMAIL:
             if (!_emailCell)
             {
@@ -683,7 +697,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
         UIImage *photoTaken = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         
         // make thumbnail from source image
-        UIImage* thumbnailImage = [ImageUtils thumbnailWithImage:photoTaken size:THUMBNAIL_SIZE];
+        UIImage* thumbnailImage = [ImageUtils thumbnailWithImage:photoTaken];
         
         [_tableHeaderController setThumbnail:thumbnailImage withTitle:@"edit photo"]; 
     }
@@ -776,12 +790,12 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
     
     // save name, note and photo
     [_entity setName:_tableHeaderController.nameFromTextField];
-    [_entity setNote:_tableHeaderController.noteFromTextField];
     [_entity setThumbnail:_tableHeaderController.thumbnail];
     
     [_entity setSchedule:[NSSet setWithArray:self.periods]];
     
     // if details exists then save details
+    [_entity setNote:self.noteCell.textField.text];
     [_entity setPhone:self.phoneCell.textField.text];
     [_entity setSite:self.siteCell.textField.text];
     [_entity setFax:self.faxCell.textField.text];

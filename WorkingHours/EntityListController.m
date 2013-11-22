@@ -18,6 +18,12 @@
 #import "EntitySearchController.h"
 #import "Schedule.h"
 
+@interface EntityListController()
+{
+    BOOL _bannerVisible;
+}
+@end
+
 @implementation EntityListController
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -61,6 +67,7 @@
     TRC_ENTRY
     [super viewDidLoad];
     
+    _bannerVisible = NO;
     // perform initial load of entity list
     if (!_fetchedResultsController)
     {
@@ -74,9 +81,9 @@
         
         TRC_DBG(@"Fetched [%i] entities", _fetchedResultsController.fetchedObjects.count);
     }
-    
-    self.view.backgroundColor = BACKGROUND_COLOR;
 
+    [self bannerViewDidLoad];
+    
     // navigation bar initialization
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewEntity:)] autorelease];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search"] style:UIBarButtonItemStylePlain target:self action:@selector(searchEnity:)] autorelease];
@@ -90,10 +97,27 @@
     // create scheduled timer to update date in the title
     self.titleTimer = [NSTimer scheduledTimerWithTimeInterval:TITLE_UPDATE_INTERVAL_SECONDS target:self selector:@selector(updateDateInTitleAndReloadData) userInfo:nil repeats:YES];
     
+    self.view.backgroundColor = BACKGROUND_COLOR;
+    
     self.tableView.backgroundColor = BACKGROUND_COLOR;
     self.tableView.sectionIndexBackgroundColor = BACKGROUND_COLOR;
     self.tableView.sectionIndexColor = GREEN_COLOR;
+    
+    [self.view addSubview:self.tableView];
 }
+
+- (void) bannerViewDidLoad
+{
+    bannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+    bannerView.delegate = self;
+    
+    CGRect adFrame = bannerView.frame;
+    adFrame.origin.y = self.view.frame.size.height - bannerView.frame.size.height - 64;
+    bannerView.frame = adFrame;
+    // add banner on the screen
+    [self.view addSubview:bannerView];
+}
+
 
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -124,6 +148,7 @@
     TRC_ENTRY
     [_titleTimer invalidate];
     self.titleTimer = nil;
+    bannerView = nil;
 
     [super viewDidUnload];
 }
@@ -426,6 +451,31 @@
     
     TRC_DBG(@"After update [%i] entities", controller.fetchedObjects.count);
 }
+
+#pragma mark Banner 
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    TRC_ENTRY
+    if (!_bannerVisible) {
+        TRC_FRAME(self.tableView.frame)
+        [self.tableView setFrame:CGRectMake(self.tableView.frame.origin.x, self.tableView.frame
+                                            .origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height - banner.frame.size.height)];
+        _bannerVisible = YES;
+    }
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    TRC_ENTRY
+    if (_bannerVisible) {
+        TRC_FRAME(self.tableView.frame)
+        [self.tableView setFrame:CGRectMake(self.tableView.frame.origin.x, self.tableView.frame
+                                            .origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height + banner.frame.size.height)];
+        _bannerVisible = NO;
+    }
+}
+
+
 
 @end
 

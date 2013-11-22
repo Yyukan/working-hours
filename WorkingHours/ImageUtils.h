@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#define THUMBNAIL_SIZE 176.0
+#define THUMBNAIL_WIDTH 640.0
+#define THUMBNAIL_HEIGHT 176.0
 
 @interface ImageUtils : NSObject
 
@@ -16,7 +17,7 @@
 + (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;
 + (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSize:(CGSize)targetSize;
 + (UIImage*)rotate:(UIImage *)image orientation:(UIImageOrientation)orientation;
-+ (UIImage*)thumbnailWithImage:(UIImage *)image size:(float) size;
++ (UIImage*)thumbnailWithImage:(UIImage *)image;
 + (UIImage*)imageThumbnailStub;
 + (int)size:(UIImage *)image;
 + (void)setBackgroundImage:(UIView *)view;

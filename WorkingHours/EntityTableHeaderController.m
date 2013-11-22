@@ -20,7 +20,6 @@
 @synthesize thumbnail;
 @synthesize thumbnailTitle;
 @synthesize name;
-@synthesize note;
 @synthesize delegate;
 @synthesize photoButton;
 
@@ -40,7 +39,6 @@
 {
     [thumbnailTitle release];
     [thumbnail release];
-    [note release];
     [name release];
     [photoButton release];
     [super dealloc];
@@ -161,11 +159,6 @@
 - (NSString *)nameFromTextField
 {
     return self.nameTextField.text;
-}
-
-- (NSString *)noteFromTextField
-{
-    return @"note???";
 }
 
 - (void)editing:(BOOL)editing

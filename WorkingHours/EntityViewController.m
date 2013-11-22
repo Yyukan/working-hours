@@ -83,7 +83,6 @@
 {
     [_tableHeaderController setThumbnail:_entity.thumbnail withTitle:@""];
     [_tableHeaderController setName:_entity.name];
-    [_tableHeaderController setNote:_entity.note];
         
     if ([_entity hasSchedule])
     {
@@ -662,7 +661,9 @@
     }
     
     [self.entity setName:_tableHeaderController.nameFromTextField];
-    [self.entity setNote:_tableHeaderController.noteFromTextField];
+    
+    // TODO:oshtykhno set from cell
+    //[self.entity setNote:];
     [self.entity setThumbnail:_tableHeaderController.thumbnail];
     
     if (self.siteCell) [self.entity setSite:self.siteCell.textField.text];
@@ -1162,7 +1163,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo 
 {
     // make thumbnail from source image
-    UIImage* thumbnailImage = [ImageUtils thumbnailWithImage:selectedImage size:THUMBNAIL_SIZE];
+    UIImage* thumbnailImage = [ImageUtils thumbnailWithImage:selectedImage];
 
     [_tableHeaderController setThumbnail:thumbnailImage withTitle:@"edit photo"]; 
 

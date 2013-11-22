@@ -16,7 +16,6 @@
 @property (nonatomic, retain) UIImage *thumbnail;
 @property (nonatomic, retain) NSString *thumbnailTitle;
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *note;
 
 @property (nonatomic, retain) IBOutlet UIButton *photoButton;
 @property (nonatomic, retain) IBOutlet UITextField *nameTextField;
@@ -24,7 +23,6 @@
 @property (nonatomic, assign) id <EntityTableHeaderControllerDelegate> delegate;
 
 - (NSString *)nameFromTextField;
-- (NSString *)noteFromTextField;
 
 - (void)editing:(BOOL)editing;
 - (void)setThumbnail:(UIImage *)image withTitle:(NSString *)title;

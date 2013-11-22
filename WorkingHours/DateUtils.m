@@ -73,7 +73,7 @@
 + (NSString *)currentDateForTitle
 {
     NSDateFormatter *outputFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [outputFormatter setDateFormat:@"EEE dd MMM"];
+    [outputFormatter setDateFormat:@"EEEE dd MMM"];
     return [outputFormatter stringFromDate:[[Date instance] now]];
 }
 

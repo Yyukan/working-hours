@@ -23,6 +23,7 @@
 		F429A9BF1412711C007D1E55 /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = F429A9BE1412711C007D1E55 /* Countries.plist */; };
 		F429A9C114127132007D1E55 /* flags in Resources */ = {isa = PBXBuildFile; fileRef = F429A9C014127132007D1E55 /* flags */; };
 		F429A9C4141272F8007D1E55 /* CountryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F429A9C3141272F8007D1E55 /* CountryController.m */; };
+		F432A14D183FC6A700D1682E /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F432A14C183FC6A700D1682E /* iAd.framework */; };
 		F43F33161427B52D00146E62 /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F43F33151427B52D00146E62 /* ImageUtils.m */; };
 		F4427E8B182EC82D00114286 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = F4427E7F182EC82D00114286 /* Icon-40.png */; };
 		F4427E8C182EC82D00114286 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4427E80182EC82D00114286 /* Icon-40@2x.png */; };
@@ -118,6 +119,7 @@
 		F429A9C014127132007D1E55 /* flags */ = {isa = PBXFileReference; lastKnownFileType = folder; name = flags; path = ../flags; sourceTree = "<group>"; };
 		F429A9C2141272F8007D1E55 /* CountryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryController.h; sourceTree = "<group>"; };
 		F429A9C3141272F8007D1E55 /* CountryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryController.m; sourceTree = "<group>"; };
+		F432A14C183FC6A700D1682E /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		F43F33141427B52D00146E62 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
 		F43F33151427B52D00146E62 /* ImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUtils.m; sourceTree = "<group>"; };
 		F4427E7F182EC82D00114286 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F432A14D183FC6A700D1682E /* iAd.framework in Frameworks */,
 				F4A0FDEB1424CA4400A958DC /* MobileCoreServices.framework in Frameworks */,
 				F459F26214155FFF005938DB /* MapKit.framework in Frameworks */,
 				F44BF4F813ED9E0C00802AE8 /* CoreData.framework in Frameworks */,
@@ -410,6 +413,7 @@
 		F4BF5BC513E74699009BA5E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F432A14C183FC6A700D1682E /* iAd.framework */,
 				F4A0FDEA1424CA4400A958DC /* MobileCoreServices.framework */,
 				F459F26114155FFE005938DB /* MapKit.framework */,
 				F44BF4F713ED9E0C00802AE8 /* CoreData.framework */,
