@@ -19,13 +19,12 @@
 #import "EntityViewableCell.h"
 #import "EntityLocationController.h"
 #import "CountryController.h"
-#import "SiteController.h"
 #import "ImageUtils.h"
 
 #import <MobileCoreServices/UTCoreTypes.h>
 
 #define SECTION_NUMBER_EDIT_MODE 4
-#define SECTION_NUMBER_VIEW_MODE 6
+#define SECTION_NUMBER_VIEW_MODE 7
 
 #define SECTION_SCHEDULE 0
 #define SECTION_ADDRESS 1
@@ -408,7 +407,7 @@
         Schedule *schedule = [self.schedules objectAtIndex:row];
         
         cell.textLabel.text = [DateUtils periodAsString:schedule.start :schedule.end];
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
+        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
         cell.textLabel.textColor = GREEN_COLOR;
         
         cell.detailTextLabel.text = [schedule scheduleToString];
@@ -528,6 +527,8 @@
             {
                 self.noteCell = [self loadCellWithPlaceHolder:@"note" andText:self.note];
             }
+            [self.noteCell.imageBackView setBackgroundColor:BACKGROUND_COLOR];
+            [self.noteCell.iconView setImage:[UIImage imageNamed:@"settings"]];
             [self.noteCell.textField setEnabled:YES];
             return self.noteCell;
         case ROW_EMAIL:
@@ -535,6 +536,8 @@
             {
                 self.emailCell = [self loadCellWithPlaceHolder:@"email" andText:self.email];
             }
+            [self.emailCell.imageBackView setBackgroundColor:BACKGROUND_COLOR];
+            [self.emailCell.iconView setImage:[UIImage imageNamed:@"settings"]];
             [self.emailCell.textField setEnabled:YES];
             return self.emailCell;
         case ROW_PHONE:
@@ -542,6 +545,8 @@
             {
                 self.phoneCell = [self loadCellWithPlaceHolder:@"phone" andText:self.phone];
             }
+            [self.phoneCell.imageBackView setBackgroundColor:BACKGROUND_COLOR];
+            [self.phoneCell.iconView setImage:[UIImage imageNamed:@"settings"]];
             [self.phoneCell.textField setEnabled:YES];
             return self.phoneCell;
         case ROW_FAX:
@@ -549,6 +554,8 @@
             {
                 self.faxCell = [self loadCellWithPlaceHolder:@"fax" andText:self.fax];
             }
+            [self.faxCell.imageBackView setBackgroundColor:BACKGROUND_COLOR];
+            [self.faxCell.iconView setImage:[UIImage imageNamed:@"settings"]];
             [self.faxCell.textField setEnabled:YES];
             return self.faxCell;
         case ROW_URL:
@@ -556,6 +563,8 @@
             {
                 self.siteCell = [self loadCellWithPlaceHolder:@"url" andText:self.url];
             }
+            [self.siteCell.imageBackView setBackgroundColor:BACKGROUND_COLOR];
+            [self.siteCell.iconView setImage:[UIImage imageNamed:@"settings"]];
             [self.siteCell.textField setEnabled:YES];
             return self.siteCell;
     }
@@ -597,6 +606,8 @@
                 {
                     self.noteCell = [self loadCellWithPlaceHolder:@"note" andText:self.note];
                 }
+                [self.noteCell.imageBackView setBackgroundColor:BLACK_COLOR];
+                [self.noteCell.iconView setImage:[UIImage imageNamed:@"clip"]];
                 [self.noteCell.textField setEnabled:NO];
                 return self.noteCell;
             case SECTION_DETAILS_SITE:
@@ -604,6 +615,8 @@
                 {
                     self.siteCell = [self loadCellWithPlaceHolder:@"url" andText:self.url];
                 }
+                [self.siteCell.imageBackView setBackgroundColor:BLACK_COLOR];
+                [self.siteCell.iconView setImage:[UIImage imageNamed:@"globe"]];
                 [self.siteCell.textField setEnabled:NO];
                 return self.siteCell;
             case SECTION_DETAILS_EMAIL:
@@ -611,6 +624,8 @@
                 {
                     self.emailCell = [self loadCellWithPlaceHolder:@"email" andText:self.email];
                 }
+                [self.emailCell.imageBackView setBackgroundColor:BLACK_COLOR];
+                [self.emailCell.iconView setImage:[UIImage imageNamed:@"email"]];
                 [self.emailCell.textField setEnabled:NO];
                 return self.emailCell;
             case SECTION_DETAILS_PHONE:
@@ -618,6 +633,8 @@
                 {
                     self.phoneCell = [self loadCellWithPlaceHolder:@"phone" andText:self.phone];
                 }
+                [self.phoneCell.imageBackView setBackgroundColor:BLACK_COLOR];
+                [self.phoneCell.iconView setImage:[UIImage imageNamed:@"phone"]];
                 [self.phoneCell.textField setEnabled:NO];
                 return self.phoneCell;
             case SECTION_DETAILS_FAX:
@@ -625,6 +642,8 @@
                 {
                     self.faxCell = [self loadCellWithPlaceHolder:@"fax" andText:self.fax];
                 }
+                [self.faxCell.imageBackView setBackgroundColor:BLACK_COLOR];
+                [self.faxCell.iconView setImage:[UIImage imageNamed:@"fax"]];
                 [self.faxCell.textField setEnabled:NO];
                 return self.faxCell;
         } 
@@ -645,7 +664,7 @@
     }
     else   
     {
-        return HEIGHT_FOR_HEADER_AND_FOOTER;
+        return HEIGHT_FOR_HEADER_AND_FOOTER - 10;
     }
 }
 
@@ -892,13 +911,13 @@
 {
     if (!isEmpty(url))
     {
-        SiteController *controller = [[SiteController alloc] init];   
-        controller.url = url;
-        controller.navigationItem.title = self.entity.name;
+        NSString *trimmed = [url stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
-        [self.navigationController pushViewController:controller animated:YES];
-        
-        [controller release];    
+        if (![trimmed hasPrefix:@"http://"]) {
+            trimmed = [NSString stringWithFormat:@"http://%@", trimmed];
+        }
+        TRC_DBG(@"Go by URL [%@]", trimmed);
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:trimmed]];
     }
 }
 

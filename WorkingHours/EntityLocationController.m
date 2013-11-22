@@ -6,6 +6,7 @@
 //  Copyright 2011 shtykhno.net. All rights reserved.
 //
 #import "Logger.h"
+#import "Common.h"
 #import "DateUtils.h"
 #import "Address.h"
 #import "Schedule.h"
@@ -35,6 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = BACKGROUND_COLOR;
 
     MKCoordinateRegion region;
     MKCoordinateSpan span;

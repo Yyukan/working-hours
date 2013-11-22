@@ -234,7 +234,7 @@
     Entity *entity = (Entity *)[_fetchedResultsController objectAtIndexPath:indexPath];
     cell.nameLabel.text = [NSString stringWithFormat:@" %@", entity.name];
     cell.descriptionLabel.text = ENTITY_DESCRIPTION_LABEL;
-    cell.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
+    cell.selectionStyle = UITableViewCellSeparatorStyleNone;
     cell.backgroundView.backgroundColor = BACKGROUND_COLOR;
     cell.backgroundColor = BACKGROUND_COLOR;
     if (entity.thumbnail)

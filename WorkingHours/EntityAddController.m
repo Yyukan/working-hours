@@ -127,7 +127,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
 {
     [super viewDidLoad];
     TRC_ENTRY
-    self.title = @"Add";
+    self.title = [DateUtils currentDateForTitle];
     self.view.backgroundColor = BACKGROUND_COLOR;
     
     // navigation bar initialization
