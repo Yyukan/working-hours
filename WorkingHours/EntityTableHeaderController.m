@@ -68,7 +68,7 @@
     }
 
     if (name) {
-        self.nameTextField.text = [NSString stringWithFormat:@" %@", name];
+        self.nameTextField.text = [NSString stringWithFormat:@"%@", name];
     }
     else {
         self.nameTextField.text = @"";
@@ -168,10 +168,12 @@
     if (editing)
     {
         self.thumbnailTitle = @"edit photo";
-    } 
+        self.nameTextField.enabled = TRUE;
+    }
     else 
     {
         self.thumbnailTitle = @"";
+        self.nameTextField.enabled = FALSE;
     }
     [photoButton setTitle:thumbnailTitle forState:UIControlStateNormal];
 }

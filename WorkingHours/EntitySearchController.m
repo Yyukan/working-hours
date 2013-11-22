@@ -42,14 +42,15 @@
 {
     TRC_ENTRY
     [super viewDidLoad];
-
+    self.navigationController.navigationBar.tintColor = GREEN_COLOR;
+    
     [self.tableView setRowHeight:ENTITY_LIST_CELL_HEIGHT];
     
     [self.searchDisplayController setActive:YES];
     [self.searchDisplayController.searchBar becomeFirstResponder];
     
-    [ImageUtils setBackgroundImage:self.searchDisplayController.searchResultsTableView];
-    [ImageUtils setSeparatorColor:self.searchDisplayController.searchResultsTableView];
+    self.searchDisplayController.searchResultsTableView.backgroundColor = BACKGROUND_COLOR;
+    self.searchDisplayController.searchResultsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)viewDidUnload
@@ -65,7 +66,7 @@
     TRC_ENTRY
     [super viewWillAppear:animated];
     // set cancel button in the search bar to black color
-    [self.searchDisplayController.searchBar setTintColor:[ImageUtils tintColor]];
+    [self.searchDisplayController.searchBar setTintColor:GREEN_COLOR];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -78,6 +79,7 @@
 {
     TRC_ENTRY
     [super viewWillDisappear:animated];
+    [self.searchDisplayController setActive:NO animated:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -95,7 +97,7 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - Search display delegate
@@ -254,7 +256,6 @@
     entityViewController.managedObjectContext = managedObjectContext;
     // push detail view controller
 	[self.navigationController pushViewController:entityViewController animated:YES];
-    [self.navigationController.navigationBar setTintColor:[ImageUtils tintColor]];
     
 	[entityViewController release];
 }

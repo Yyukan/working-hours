@@ -736,14 +736,17 @@
     {
         // add cancel button
         self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cross"] style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)] autorelease];
-        [self.tableView reloadData];
-    } 
+        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"done"] style:UIBarButtonItemStylePlain target:self action:@selector(editButtonAction:)] autorelease];
+        self.navigationItem.rightBarButtonItem.tag = SAVE_BUTTON_TAG;
+
+    }
     else 
     {
         self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(back:)] autorelease];
-
-        [self.tableView reloadData];
+        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStylePlain target:self action:@selector(editButtonAction:)] autorelease];
+        self.navigationItem.rightBarButtonItem.tag = EDIT_BUTTON_TAG;
     }
+    [self.tableView reloadData];
 }
 
 - (IBAction)back:(id)sender {

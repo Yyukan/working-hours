@@ -20,13 +20,6 @@
 + (UIImage*)thumbnailWithImage:(UIImage *)image;
 + (UIImage*)imageThumbnailStub;
 + (int)size:(UIImage *)image;
-+ (void)setBackgroundImage:(UIView *)view;
-+ (void)setBackgroundColor:(UIView *)view;
-
-+ (UIColor *)cellBackGround;
-+ (UIColor *)tintColor;
-
-+ (void)setSeparatorColor:(UITableView *)tableView;
 + (UIImage *)imageWithColor:(UIColor *)color;
 
 @end

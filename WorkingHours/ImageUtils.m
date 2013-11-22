@@ -263,39 +263,6 @@ static inline CGSize swapWidthAndHeight(CGSize size)
     return [UIImage imageWithContentsOfFile:path];
 }
 
-+ (void)setBackgroundImage:(UIView *)view
-{
-	UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
-    view.backgroundColor = background;
-    if ([view isKindOfClass:[UITableView class]])
-    {
-        UITableView *tableView = (UITableView *)view;
-        tableView.backgroundView = nil;
-    }
-    [background release];
-}
-
-+ (void)setBackgroundColor:(UIView *)view
-{
-    
-    view.backgroundColor = [UIColor colorWithRed:0.410 green:0.280 blue:0.170 alpha:1];
-}
-
-+ (void)setSeparatorColor:(UITableView *)tableView;
-{
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-}
-
-+ (UIColor *)tintColor
-{
-    return [UIColor colorWithRed:0.410 green:0.280 blue:0.170 alpha:1];
-}
-
-+ (UIColor *)cellBackGround
-{
-    return [UIColor colorWithRed:0.980 green:0.913 blue:0.710 alpha:1];
-}
-
 + (UIImage *)imageWithColor:(UIColor *)color {
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);

@@ -90,8 +90,6 @@
     
     self.navigationController.navigationBar.tintColor = GREEN_COLOR;
     
-    [ImageUtils setSeparatorColor:self.tableView];
-
     [self updateDateInTitleAndReloadData];
         
     // create scheduled timer to update date in the title
@@ -102,6 +100,7 @@
     self.tableView.backgroundColor = BACKGROUND_COLOR;
     self.tableView.sectionIndexBackgroundColor = BACKGROUND_COLOR;
     self.tableView.sectionIndexColor = GREEN_COLOR;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.view addSubview:self.tableView];
 }
@@ -327,13 +326,16 @@
     
     EntitySearchController *entitySearchController = [[EntitySearchController alloc] initWithNibName:@"EntitySearchController" bundle:nil];
     entitySearchController.managedObjectContext = self.managedObjectContext;
+
+    [self.navigationController pushViewController:entitySearchController animated:YES];
+
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:entitySearchController];
-    
-    [self presentViewController:navigationController animated:NO completion:nil];
-	
-    [entitySearchController release];    
-    [navigationController release];
+//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:entitySearchController];
+//    
+//    [self presentViewController:navigationController animated:NO completion:nil];
+//	
+    [entitySearchController release];
+//    [navigationController release];
 }
 
 - (IBAction)addNewEntity:(id)sender
