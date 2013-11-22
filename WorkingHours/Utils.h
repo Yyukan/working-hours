@@ -29,5 +29,6 @@
 //
 + (UITableViewCell *)tableView:(UITableView *)tableView cellInsert:(NSIndexPath *)indexPath identifier:(NSString *)identifier text:(NSString *)text;
 + (void)adjustHeadTail:(UITableViewCell *)cell;
++ (void)adjustHeadTail:(UITableViewCell *)cell height:(CGFloat)height;
 
 @end

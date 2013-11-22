@@ -369,7 +369,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
         case ROW_NOTE:
             if (!_noteCell)
             {
-                self.noteCell = [self loadCellWithPlaceHolder:@"Note" andText:self.email];
+                self.noteCell = [self loadCellWithPlaceHolder:@"Note" andText:self.note];
             }
             return self.noteCell;
         case ROW_EMAIL:

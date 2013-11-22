@@ -32,6 +32,7 @@
     NSString *_city;
     NSString *_postcode;
     NSString *_country;
+    NSString *_note;
     NSString *_url;
     NSString *_email;
     NSString *_phone;
@@ -50,6 +51,7 @@
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSString *email;
 @property (nonatomic, retain) NSString *phone;
+@property (nonatomic, retain) NSString *note;
 @property (nonatomic, retain) NSString *fax;
 
 @property (nonatomic, retain) EntityEditableCell *phoneCell;
@@ -60,6 +62,7 @@
 @property (nonatomic, retain) EntityEditableCell *postCodeCell;
 @property (nonatomic, retain) EntityEditableCell *countryCell;
 @property (nonatomic, retain) EntityEditableCell *cityCell;
+@property (nonatomic, retain) EntityEditableCell *noteCell;
 
 @property (nonatomic, retain) EntityViewableCell *address;
 

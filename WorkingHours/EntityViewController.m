@@ -32,20 +32,22 @@
 #define SECTION_DETAILS 2
 #define SECTION_DELETE 3
 
-#define SECTION_DETAILS_SITE 2
-#define SECTION_DETAILS_EMAIL 3
-#define SECTION_DETAILS_PHONE 4
-#define SECTION_DETAILS_FAX 5
+#define SECTION_DETAILS_NOTE 2
+#define SECTION_DETAILS_SITE 3
+#define SECTION_DETAILS_EMAIL 4
+#define SECTION_DETAILS_PHONE 5
+#define SECTION_DETAILS_FAX 6
 
 #define ROW_STREET 0
 #define ROW_CITY 1
 #define ROW_POSTCODE 2
 #define ROW_COUNTRY 3
 
-#define ROW_URL 0
-#define ROW_EMAIL 1
-#define ROW_PHONE 2
-#define ROW_FAX 3
+#define ROW_NOTE 0
+#define ROW_URL 1
+#define ROW_EMAIL 2
+#define ROW_PHONE 3
+#define ROW_FAX 4
 
 #define CELL_HEIGHT 44.0
 
@@ -68,6 +70,7 @@
             country = _country,
             city = _city,
             postcode = _postcode,
+            note = _note,
             street = _street;
 
 @synthesize streetCell = _streetCell, 
@@ -76,7 +79,8 @@
             countryCell = _countryCell, 
             siteCell = _siteCell, 
             emailCell = _emailCell, 
-            phoneCell = _phoneCell, 
+            phoneCell = _phoneCell,
+            noteCell = _noteCell,
             faxCell = _faxCell;
 
 - (void)initialize 
@@ -106,6 +110,7 @@
     self.phone = _entity.phone;
     self.fax = _entity.fax;
     self.url = _entity.site;
+    self.note = _entity.note;
 }
 
 - (id) initWithStyle:(UITableViewStyle)style entity:(Entity *)entity
@@ -129,6 +134,7 @@
 
 - (void)dealloc 
 {
+    [_note release];
     [_phone release];
     [_fax release];
     [_url release];
@@ -146,6 +152,7 @@
     [_emailCell release];
     [_phoneCell release];
     [_faxCell release];
+    [_noteCell release];
 
     [_address release];
     [_tableHeaderController release];
@@ -166,10 +173,8 @@
 {
     [super viewDidLoad];
     TRC_ENTRY
-
-    
+    self.title = [DateUtils currentDateForTitle];
     // navigation bar initialization
-    //self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)] autorelease];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStylePlain target:self action:@selector(editButtonAction:)] autorelease];
     self.navigationItem.rightBarButtonItem.tag = EDIT_BUTTON_TAG;
     self.navigationController.navigationBar.tintColor = GREEN_COLOR;
@@ -210,7 +215,14 @@
         [sortedSchedules release];
         
         [self.tableView reloadData]; 
-    }    
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationItem setHidesBackButton:YES animated:NO];
+    
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(back:)] autorelease];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -238,6 +250,7 @@
     if (self.emailCell) self.email = self.emailCell.textField.text;
     if (self.phoneCell) self.phone = self.phoneCell.textField.text;
     if (self.faxCell) self.fax = self.faxCell.textField.text;
+    if (self.noteCell) self.note = self. noteCell.textField.text;
     
     self.streetCell = nil;
     self.cityCell = nil;
@@ -247,6 +260,7 @@
     self.siteCell = nil;
     self.phoneCell = nil;
     self.faxCell = nil;
+    self.noteCell = nil;
     
     _edit = self.editing;
 }
@@ -280,7 +294,7 @@
                 rows = 4;
                 break;
             case SECTION_DETAILS:
-                rows = 4;
+                rows = 5;
                 break;
             case SECTION_DELETE:
                 rows = 1;
@@ -299,6 +313,11 @@
                 break;
             case SECTION_ADDRESS:
                 if ([_entity hasAddress]) {
+                    rows = 1;
+                }
+                break;
+            case SECTION_DETAILS_NOTE:
+                if (!isEmpty(_entity.note)) {
                     rows = 1;
                 }
                 break;
@@ -355,7 +374,6 @@
     [[NSBundle mainBundle] loadNibNamed:@"EntityEditableCell" owner:self options:nil];
     EntityEditableCell *cell = _entityEditableCell;
     self.entityEditableCell = nil;
-    
     
     [cell.textField setDelegate:self];
     [cell.textField setText:text];
@@ -461,7 +479,7 @@
             
         self.address.textView.text = [address addressAsString];
     }
-    [Utils adjustHeadTail:self.address];
+    [Utils adjustHeadTail:self.address height:[self tableView:self.tableView heightForRowAtIndexPath:indexPath]];
 
     return self.address;
 }
@@ -505,6 +523,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForDetail:(NSIndexPath *)indexPath 
 {
     switch (indexPath.row) {
+        case ROW_NOTE:
+            if (!_noteCell)
+            {
+                self.noteCell = [self loadCellWithPlaceHolder:@"note" andText:self.note];
+            }
+            [self.noteCell.textField setEnabled:YES];
+            return self.noteCell;
         case ROW_EMAIL:
             if (!_emailCell)
             {
@@ -567,6 +592,13 @@
             case SECTION_ADDRESS:
                 return [self tableView:tableView cellForAddressSingle:indexPath];
              
+            case SECTION_DETAILS_NOTE:
+                if (!_noteCell)
+                {
+                    self.noteCell = [self loadCellWithPlaceHolder:@"note" andText:self.note];
+                }
+                [self.noteCell.textField setEnabled:NO];
+                return self.noteCell;
             case SECTION_DETAILS_SITE:
                 if (!_siteCell)
                 {
@@ -661,11 +693,9 @@
     }
     
     [self.entity setName:_tableHeaderController.nameFromTextField];
-    
-    // TODO:oshtykhno set from cell
-    //[self.entity setNote:];
     [self.entity setThumbnail:_tableHeaderController.thumbnail];
     
+    if (self.noteCell) [self.entity setNote:self.noteCell.textField.text];
     if (self.siteCell) [self.entity setSite:self.siteCell.textField.text];
     if (self.emailCell) [self.entity setEmail:self.emailCell.textField.text];
     if (self.phoneCell) [self.entity setPhone:self.phoneCell.textField.text];
@@ -704,21 +734,21 @@
     [_tableHeaderController editing:editing];
     if (editing) 
     {
-        // add cancel button 
-        self.navigationItem.leftBarButtonItem = 
-            [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-                                                   target:self action:@selector(cancel:)] autorelease];
-    
-        [self.navigationItem setHidesBackButton:YES animated:YES];
+        // add cancel button
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cross"] style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)] autorelease];
         [self.tableView reloadData];
     } 
     else 
-    {    
-        [self.navigationItem setLeftBarButtonItem:nil];
-        [self.navigationItem setHidesBackButton:NO animated:YES];
+    {
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(back:)] autorelease];
 
         [self.tableView reloadData];
     }
+}
+
+- (IBAction)back:(id)sender {
+    TRC_ENTRY
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (IBAction)cancel:(id)sender 
@@ -736,6 +766,7 @@
     self.siteCell = nil;
     self.phoneCell = nil;
     self.faxCell = nil;
+    self.noteCell = nil;
     
     [self.tableView reloadData];
 }

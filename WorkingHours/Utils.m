@@ -110,6 +110,19 @@
     [cell addSubview:tailView];
 }
 
++ (void)adjustHeadTail:(UITableViewCell *)cell height:(CGFloat)height
+{
+    UIView *headView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, height)] autorelease];
+    headView.backgroundColor = BACKGROUND_COLOR;
+    
+    UIView *tailView = [[[UIView alloc] initWithFrame:CGRectMake(cell.frame.size.width-5, 0, 10, height)] autorelease];
+    tailView.backgroundColor = BACKGROUND_COLOR;
+    
+    [cell addSubview:headView];
+    [cell addSubview:tailView];
+}
+
+
 + (UIView *)emptyView
 {
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
