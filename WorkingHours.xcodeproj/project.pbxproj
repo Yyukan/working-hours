@@ -26,6 +26,7 @@
 		F432A15118401D7600D1682E /* phone.png in Resources */ = {isa = PBXBuildFile; fileRef = F432A15018401D7600D1682E /* phone.png */; };
 		F432A15318401E4C00D1682E /* fax.png in Resources */ = {isa = PBXBuildFile; fileRef = F432A15218401E4C00D1682E /* fax.png */; };
 		F432A155184021B800D1682E /* email.png in Resources */ = {isa = PBXBuildFile; fileRef = F432A154184021B800D1682E /* email.png */; };
+		F432A15818409C6800D1682E /* UIAlertView+WithCompletion.m in Sources */ = {isa = PBXBuildFile; fileRef = F432A15718409C6800D1682E /* UIAlertView+WithCompletion.m */; };
 		F43F33161427B52D00146E62 /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F43F33151427B52D00146E62 /* ImageUtils.m */; };
 		F4427E8B182EC82D00114286 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = F4427E7F182EC82D00114286 /* Icon-40.png */; };
 		F4427E8C182EC82D00114286 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4427E80182EC82D00114286 /* Icon-40@2x.png */; };
@@ -121,6 +122,8 @@
 		F432A15018401D7600D1682E /* phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone.png; sourceTree = "<group>"; };
 		F432A15218401E4C00D1682E /* fax.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fax.png; sourceTree = "<group>"; };
 		F432A154184021B800D1682E /* email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = email.png; sourceTree = "<group>"; };
+		F432A15618409C1200D1682E /* UIAlertView+WithCompletion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+WithCompletion.h"; sourceTree = "<group>"; };
+		F432A15718409C6800D1682E /* UIAlertView+WithCompletion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+WithCompletion.m"; sourceTree = "<group>"; };
 		F43F33141427B52D00146E62 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
 		F43F33151427B52D00146E62 /* ImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUtils.m; sourceTree = "<group>"; };
 		F4427E7F182EC82D00114286 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
@@ -381,6 +384,8 @@
 				F46533B8140906080083E0D0 /* Utils.m */,
 				F43F33141427B52D00146E62 /* ImageUtils.h */,
 				F43F33151427B52D00146E62 /* ImageUtils.m */,
+				F432A15618409C1200D1682E /* UIAlertView+WithCompletion.h */,
+				F432A15718409C6800D1682E /* UIAlertView+WithCompletion.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -638,6 +643,7 @@
 				F48A9C8813FC454400699B7F /* Week.m in Sources */,
 				F405E7AE1400EE1D00E7AFC2 /* Date.m in Sources */,
 				F4DCDDC8140139CB007C503D /* DateGateway.m in Sources */,
+				F432A15818409C6800D1682E /* UIAlertView+WithCompletion.m in Sources */,
 				F46533B9140906080083E0D0 /* Utils.m in Sources */,
 				F480DDC9140D6289003E9DFC /* EntityTableHeaderController.m in Sources */,
 				F429A9C4141272F8007D1E55 /* CountryController.m in Sources */,

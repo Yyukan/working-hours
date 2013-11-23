@@ -20,6 +20,7 @@
 #import "EntityLocationController.h"
 #import "CountryController.h"
 #import "ImageUtils.h"
+#import "UIAlertView+WithCompletion.h"
 
 #import <MobileCoreServices/UTCoreTypes.h>
 
@@ -539,6 +540,7 @@
             [self.emailCell.imageBackView setBackgroundColor:BACKGROUND_COLOR];
             [self.emailCell.iconView setImage:[UIImage imageNamed:@"settings"]];
             [self.emailCell.textField setEnabled:YES];
+            [self.emailCell.textField setKeyboardType:UIKeyboardTypeEmailAddress];
             return self.emailCell;
         case ROW_PHONE:
             if (!_phoneCell)
@@ -548,6 +550,7 @@
             [self.phoneCell.imageBackView setBackgroundColor:BACKGROUND_COLOR];
             [self.phoneCell.iconView setImage:[UIImage imageNamed:@"settings"]];
             [self.phoneCell.textField setEnabled:YES];
+            [self.phoneCell.textField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
             return self.phoneCell;
         case ROW_FAX:
             if (!_faxCell)
@@ -557,6 +560,7 @@
             [self.faxCell.imageBackView setBackgroundColor:BACKGROUND_COLOR];
             [self.faxCell.iconView setImage:[UIImage imageNamed:@"settings"]];
             [self.faxCell.textField setEnabled:YES];
+            [self.faxCell.textField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
             return self.faxCell;
         case ROW_URL:
             if (!_siteCell)
@@ -566,6 +570,7 @@
             [self.siteCell.imageBackView setBackgroundColor:BACKGROUND_COLOR];
             [self.siteCell.iconView setImage:[UIImage imageNamed:@"settings"]];
             [self.siteCell.textField setEnabled:YES];
+            [self.siteCell.textField setKeyboardType:UIKeyboardTypeURL];
             return self.siteCell;
     }
     
@@ -933,15 +938,30 @@
 {
     if (!isEmpty(phone))
     {
+        
+        
         NSString *number = [phone  stringByReplacingOccurrencesOfString:@" " withString:@""];
         
         number = [number stringByReplacingOccurrencesOfString:@"-" withString:@""];
         number = [number stringByReplacingOccurrencesOfString:@"(" withString:@""];
         number = [number stringByReplacingOccurrencesOfString:@")" withString:@""];
         number = [number stringByReplacingOccurrencesOfString:@"+" withString:@""];
+
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                            message:[NSString stringWithFormat:@"Call to %@ ?", number]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"OK", nil];
         
-        TRC_DBG(@"Calling phone [%@]", number);
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:number]]];
+        [alertView showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex)
+         {
+             if (buttonIndex == 1) {
+                 TRC_DBG(@"Calling phone [%@]", number);
+                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:number]]];
+             }
+         }
+         
+         ];
     }
 }
 
