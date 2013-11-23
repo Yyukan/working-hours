@@ -251,9 +251,37 @@ static inline CGSize swapWidthAndHeight(CGSize size)
     return data.length;
 }
 
+
++(UIImage*)imageWithImage: (UIImage*) sourceImage scaledToWidth: (float) i_width
+{
+    float oldWidth = sourceImage.size.width;
+    float scaleFactor = i_width / oldWidth;
+    
+    float newHeight = sourceImage.size.height * scaleFactor;
+    float newWidth = oldWidth * scaleFactor;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+    [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 + (UIImage*)thumbnailWithImage:(UIImage *)image
 {
-    return [ImageUtils imageWithImage:image scaledToSize:CGSizeMake(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT)];
+    UIImage *scaledImage = [ImageUtils imageWithImage:image scaledToWidth:THUMBNAIL_WIDTH];
+    
+    // size of current image
+    CGSize size = [scaledImage size];
+    
+    // cropped rectangle from the middle of the existing image
+    CGRect rect = CGRectMake(0, size.height / 2 - THUMBNAIL_HEIGHT / 2, size.width, THUMBNAIL_HEIGHT);
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect([scaledImage CGImage], rect);
+    UIImage *result = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    
+    return result;
 }
 
 + (UIImage*)imageThumbnailStub;
