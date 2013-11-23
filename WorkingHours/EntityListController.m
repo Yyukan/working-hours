@@ -469,7 +469,6 @@
 {
     TRC_ENTRY
     if (_bannerVisible) {
-        // TODO:yukan add here AD MOB ads
         [self.tableView setFrame:CGRectMake(self.tableView.frame.origin.x, self.tableView.frame
                                             .origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height + banner.frame.size.height)];
         _bannerVisible = NO;

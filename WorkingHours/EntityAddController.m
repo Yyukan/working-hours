@@ -142,23 +142,8 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
     self.tableView.tableHeaderView = _tableHeaderController.view;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)sortSchedules
 {
-    [super viewWillDisappear:animated];
-    TRC_ENTRY
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    TRC_ENTRY
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    TRC_ENTRY
-    
     if ([self.periods count] > 0)
     {
         // sort schedule accordng to order
@@ -176,6 +161,14 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
         
         [self.tableView reloadData]; 
     }
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    TRC_ENTRY
+    
+    [self sortSchedules];
 }
 
 - (void)viewDidUnload
@@ -287,7 +280,6 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForSchedule:(NSIndexPath *)indexPath 
 {
     NSUInteger scheduleCount = [self.periods count];
-    NSInteger row = indexPath.row;
     
     if (indexPath.row < scheduleCount) {
         static NSString *cellIdentifier = @"ScheduleCell";
@@ -305,14 +297,13 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
             cell.detailTextLabel.textColor = BACKGROUND_COLOR;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.backgroundColor = BLACK_COLOR;
+            [Utils adjustHeadTail:cell];
         }
         
-        Schedule *schedule = [self.periods objectAtIndex:row];
+        Schedule *schedule = [self.periods objectAtIndex:indexPath.row];
 
         cell.textLabel.text = [DateUtils periodAsString:schedule.start :schedule.end];
         cell.detailTextLabel.text = [schedule scheduleToString];
-        
-        [Utils adjustHeadTail:cell];
         
         return cell;
     } 
@@ -651,6 +642,7 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
             // if add new schedule
             schedule = [NSEntityDescription insertNewObjectForEntityForName:@"Schedule" inManagedObjectContext:self.managedContext];
             schedule.order = [NSNumber numberWithInteger:[self.periods count]];
+            TRC_DBG(@"Added new schedule with order [%@]", schedule.order);
             [self.periods addObject:schedule];
         }
         

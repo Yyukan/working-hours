@@ -73,6 +73,7 @@
     else {
         self.nameTextField.text = @"";
     }
+    self.nameTextField.delegate = self;
     self.view.backgroundColor = BACKGROUND_COLOR;
 }
 

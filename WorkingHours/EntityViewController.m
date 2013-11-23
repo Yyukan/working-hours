@@ -90,7 +90,8 @@
         
     if ([_entity hasSchedule])
     {
-        self.schedules = [NSMutableArray arrayWithArray:[_entity.schedule allObjects]]; 
+        self.schedules = [NSMutableArray arrayWithArray:[_entity.schedule allObjects]];
+        [self sortSchedules];
     }
     else
     {
@@ -195,12 +196,11 @@
     self.tableView.backgroundView.backgroundColor = BACKGROUND_COLOR;
 }
 
--(void) viewWillAppear:(BOOL)animated
+/**
+ * Sort mutable array of schedules accrording to entity field - order
+ */
+- (void)sortSchedules
 {
-    [super viewWillAppear:animated];
-    
-    TRC_ENTRY
-
     if (self.schedules.count > 0)
     {
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
@@ -216,25 +216,6 @@
         
         [self.tableView reloadData]; 
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationItem setHidesBackButton:YES animated:NO];
-    
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(back:)] autorelease];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    TRC_ENTRY
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    TRC_ENTRY
 }
 
 - (void)viewDidUnload
@@ -390,8 +371,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForSchedule:(NSIndexPath *)indexPath
 {
-    NSUInteger scheduleCount = [_entity.schedule count];
-    NSInteger row = indexPath.row;
+    NSUInteger scheduleCount = [self.schedules count];
     
     UITableViewCell *cell = nil;
     
@@ -403,28 +383,25 @@
         if (cell == nil) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier] autorelease];
             cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.textLabel.textColor = GREEN_COLOR;
+            cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
+            cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+            cell.detailTextLabel.textColor = BACKGROUND_COLOR;
+            cell.backgroundColor = BLACK_COLOR;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            if (self.editing)
+            {
+                cell.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
+                cell.showsReorderControl = YES;
+            }
+            [Utils adjustHeadTail:cell];
         }
         
-        Schedule *schedule = [self.schedules objectAtIndex:row];
+        Schedule *schedule = [self.schedules objectAtIndex:indexPath.row];
         
         cell.textLabel.text = [DateUtils periodAsString:schedule.start :schedule.end];
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
-        cell.textLabel.textColor = GREEN_COLOR;
-        
         cell.detailTextLabel.text = [schedule scheduleToString];
-        cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
-        cell.detailTextLabel.textColor = BACKGROUND_COLOR;
         
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = BLACK_COLOR;
-        
-        [Utils adjustHeadTail:cell];
-        
-        if (self.editing)
-        {
-            cell.selectionStyle = GLOBAL_CELL_SELECTION_STYLE;
-            cell.showsReorderControl = YES;
-        }
         return cell;
     } 
     
@@ -1128,6 +1105,8 @@
         schedule.fri = [NSNumber numberWithBool:[controller.week checkDay:FRIDAY]];
         schedule.sat = [NSNumber numberWithBool:[controller.week checkDay:SATURDAY]];
         schedule.sun = [NSNumber numberWithBool:[controller.week checkDay:SUNDAY]];
+        
+        [self.tableView reloadData];
     }    
     
     [self dismissViewControllerAnimated:NO completion:nil];
