@@ -522,6 +522,11 @@
 				TargetAttributes = {
 					F4BF5BC113E74699009BA5E7 = {
 						DevelopmentTeam = G6LUHT349V;
+						SystemCapabilities = {
+							com.apple.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};

@@ -30,6 +30,8 @@
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *subtitle;
 
+- (id)initWithCoordinate:(CLLocationCoordinate2D) c;
+
 @end
 
 

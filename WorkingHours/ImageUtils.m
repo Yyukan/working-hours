@@ -28,7 +28,7 @@ static inline CGSize swapWidthAndHeight(CGSize size)
 + (UIImage*)image:(UIImage*)image scaledToSize:(CGSize)newSize;
 {
     // Create a graphics image context
-    UIGraphicsBeginImageContext(newSize);
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
     
     // Tell the old image to draw in this new context, with the desired
     // new size
@@ -253,7 +253,7 @@ static inline CGSize swapWidthAndHeight(CGSize size)
 
 + (UIImage*)thumbnailWithImage:(UIImage *)image
 {
-    return [ImageUtils imageWithImage:image scaledToSizeWithSameAspectRatio:CGSizeMake(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT)];
+    return [ImageUtils imageWithImage:image scaledToSize:CGSizeMake(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT)];
 }
 
 + (UIImage*)imageThumbnailStub;
