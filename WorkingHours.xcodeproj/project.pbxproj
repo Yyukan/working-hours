@@ -707,7 +707,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Oleksandr Shtykhno";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Oleksandr Shtykhno (K53KK78856)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oleksandr Shtykhno (K53KK78856)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -725,8 +725,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34CC2938-D2E7-49FA-8694-DEEE4031DE76";
+				PROVISIONING_PROFILE = "F2BF06BD-A23F-4057-9A45-8F19CE900EED";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F2BF06BD-A23F-4057-9A45-8F19CE900EED";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -735,8 +735,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Oleksandr Shtykhno";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oleksandr Shtykhno";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Oleksandr Shtykhno (G6LUHT349V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oleksandr Shtykhno (G6LUHT349V)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_THUMB_SUPPORT = NO;
@@ -746,8 +746,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EF60F819-659D-414E-BD62-CE706B1416DF";
+				PROVISIONING_PROFILE = "F2BF06BD-A23F-4057-9A45-8F19CE900EED";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F2BF06BD-A23F-4057-9A45-8F19CE900EED";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
