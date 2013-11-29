@@ -367,24 +367,28 @@ static NSString *ADD_DETAIL_CELL_IDENTIFIER = @"ADD_DETAIL_CELL_IDENTIFIER";
             if (!_emailCell)
             {
                 self.emailCell = [self loadCellWithPlaceHolder:@"Email" andText:self.email];
+                self.emailCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
             }
             return self.emailCell;
         case ROW_PHONE:
             if (!_phoneCell)
             {
                 self.phoneCell = [self loadCellWithPlaceHolder:@"Phone" andText:self.phone];
+                [self.phoneCell.textField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
             }
             return self.phoneCell;
         case ROW_FAX:
             if (!_faxCell)
             {
                 self.faxCell = [self loadCellWithPlaceHolder:@"Fax" andText:self.fax];
+                [self.faxCell.textField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
             }
             return self.faxCell;
         case ROW_URL:
             if (!_siteCell)
             {
                 self.siteCell = [self loadCellWithPlaceHolder:@"Url" andText:self.url];
+                [self.siteCell.textField setKeyboardType:UIKeyboardTypeURL];
             }
             return self.siteCell;
     }
