@@ -128,12 +128,12 @@
     annotationView.annotation = annotation;
     annotationView.canShowCallout = YES;
     
-    if (_entity.thumbnail)
-    {
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[ImageUtils image:_entity.thumbnail scaledToSize:CGSizeMake(30, 30)]];
-        annotationView.leftCalloutAccessoryView = imageView;
-        [imageView release];    
-    }
+//    if (_entity.thumbnail)
+//    {
+//        UIImageView *imageView = [[UIImageView alloc] initWithImage:[ImageUtils image:_entity.thumbnail scaledToSize:CGSizeMake(30, 30)]];
+//        annotationView.leftCalloutAccessoryView = imageView;
+//        [imageView release];    
+//    }
     
     return annotationView;
 }
